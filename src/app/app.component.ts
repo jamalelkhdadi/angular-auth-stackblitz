@@ -1,47 +1,24 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { environment } from '../environments/environment';
-import { AuthService } from './auth.service'
+﻿import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
-// Firebase App (the core Firebase SDK) is always required and
-// must be listed before other Firebase SDKs
-import * as firebase from "firebase/app";
+import { AuthenticationService } from './_services';
+import { User } from './_models';
 
-@Component({
-  selector: 'my-app',
-  templateUrl: './app.component.html',
-  styleUrls: [ './app.component.css' ]
-})
-export class AppComponent  {
- loginForm: FormGroup;
+import './_content/app.less';
 
-  constructor(
-    private fb: FormBuilder,
-    private auth: AuthService
-  ) {
-    firebase.initializeApp(environment);
-     }
+@Component({ selector: 'app', templateUrl: 'app.component.html' })
+export class AppComponent {
+    currentUser: User;
 
-  ngOnInit(): void {
-    this.loginForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
-    });
-  }
+    constructor(
+        private router: Router,
+        private authenticationService: AuthenticationService
+    ) {
+        this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    }
 
-  signout(){
-    this.auth.firebaseSignout();
-  }
-
-  signup(){
-    let username = this.loginForm.get('username').value;
-    let password = this.loginForm.get('password').value;
-    this.auth.firebaseSignup(username, password);
-  }
-
-  onSubmit() {
-    let username = this.loginForm.get('username').value;
-    let password = this.loginForm.get('password').value;
-    this.auth.firebaseSignin(username, password);
-  }
+    logout() {
+        this.authenticationService.logout();
+        this.router.navigate(['/login']);
+    }
 }
