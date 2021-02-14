@@ -1,24 +1,36 @@
-﻿import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { TokenStorageService } from './_services/token-storage.service';
 
-import { AuthenticationService } from './_services';
-import { User } from './_models';
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent implements OnInit {
+  private roles: string[] = [];
+  isLoggedIn = false;
+  showAdminBoard = false;
+  showModeratorBoard = false;
+  username?: string;
 
-import './_content/app.less';
+  constructor(private tokenStorageService: TokenStorageService) { }
 
-@Component({ selector: 'app', templateUrl: 'app.component.html' })
-export class AppComponent {
-    currentUser: User;
+  ngOnInit(): void {
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
 
-    constructor(
-        private router: Router,
-        private authenticationService: AuthenticationService
-    ) {
-        this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    if (this.isLoggedIn) {
+      const user = this.tokenStorageService.getUser();
+      this.roles = user.roles;
+
+      this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
+      this.showModeratorBoard = this.roles.includes('ROLE_MODERATOR');
+
+      this.username = user.username;
     }
+  }
 
-    logout() {
-        this.authenticationService.logout();
-        this.router.navigate(['/login']);
-    }
+  logout(): void {
+    this.tokenStorageService.signOut();
+    window.location.reload();
+  }
 }
