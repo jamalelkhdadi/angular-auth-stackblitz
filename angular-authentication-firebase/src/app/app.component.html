@@ -29,14 +29,12 @@
         </button>
       </div>
     </div>
+    
     <div class="error" *ngIf="authService.err">
       <h5 class="text-danger">{{ authService.err }}</h5>
     </div>
   </div>
-  
-  <div class="container">
-    <router-outlet></router-outlet>
-  </div>
 
 </body>
+
 </html>

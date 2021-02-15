@@ -1,21 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
 
+export class AppComponent {
   title = '"Angular Authentication via Firebase"';
 
   emailAddress: string;
   password: string;
 
   constructor(public authService: AuthService) { }
-  ngOnInit(): void {
-  }
 
   signup() {
     this.authService.signup(this.emailAddress, this.password);
@@ -32,4 +30,3 @@ export class AppComponent implements OnInit {
     this.authService.logout();
   }
 }
-

@@ -11,15 +11,12 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 // Authentication service.
 import { AuthService } from '../app/auth.service';
 
-import { AppRoutingModule } from './app-routing.module';
-
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule
