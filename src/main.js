@@ -9,14 +9,14 @@ import '@/assets/css/main.css'
 Vue.config.productionTip = false
 
 const firebaseConfig = {
-  apiKey: "api-key",
-  authDomain: "project-id.firebaseapp.com",
-  databaseURL: "https://project-id.firebaseio.com",
-  projectId: "project-id",
-  storageBucket: "project-id.appspot.com",
-  messagingSenderId: "sender-id",
-  appId: "app-id",
-  measurementId: "G-measurement-id"
+  apiKey: "AIzaSyDs4FkL0rYr347BEOxHm1d0Rp6Zd_06yFk",
+  authDomain: "vue-fire-ex-bt-sheet.firebaseapp.com",
+  databaseURL: "https://vue-fire-ex-bt-sheet-default-rtdb.firebaseio.com",
+  projectId: "vue-fire-ex-bt-sheet",
+  storageBucket: "vue-fire-ex-bt-sheet.appspot.com",
+  messagingSenderId: "468943959657",
+  appId: "1:468943959657:web:697dce1e57d461998bd4f8",
+  measurementId: "G-2H9YKTY2T2"
 }
 
 firebase.initializeApp(firebaseConfig);
