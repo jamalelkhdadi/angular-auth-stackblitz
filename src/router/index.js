@@ -23,6 +23,11 @@ Vue.use(VueRouter)
     path: '/home',
     name: 'home',
     component: () => import('../components/Home.vue')
+  },
+  {
+    path: '/add',
+    name: 'add',
+    component: () => import('../components/Add.vue')
   }
 ]
 

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <title>add</title>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://unpkg.com/vuefire@1.3.0/dist/vuefire.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>
+</head>
+
+<body>
+
+  <div class="container" id="app">
+    <a href="list.html" class="text-danger" style="font-size:40px">
+      <i class="fa fa-times"></i>
+    </a>
+    <h2 class="text-success">Add new Term</h2>
+    <div class="toast" data-autohide="false">
+      <div class="toast-header">
+        <strong class="mr-auto text-primary">Note</strong>
+        <small class="text-muted">close</small>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">&times;</button>
+      </div>
+      <div class="toast-body">
+        <code v-show="!validation.name">
+        - Term cannot be empty.
+      </code><br>
+        <code v-show="!validation.finition">
+        - Please provide a valid Standard of.
+      </code>
+      </div>
+    </div>
+
+    <form id="form" class="form-group" v-on:submit.prevent="addTerm">
+      <input class="form-control" type="text" v-model="newTerm.name" placeholder="name" />
+      <br>
+      <input class="form-control" type="text" v-model="newTerm.collage" placeholder="co" />
+      <br>
+      <input class="form-control" type="text" v-model="newTerm.finition" placeholder="fi" />
+      <br>
+      <input class="form-control" type="text" v-model="newTerm.marquage" placeholder="ma" />
+      <br>
+      <input class="form-control" type="text" v-model="newTerm.control" placeholder="con" />
+      <br>
+      <input class="form-control" type="date" v-model="newTerm.createdat" />
+      <input type="submit" value="Add Term" class="btn btn-primary" />
+    </form>
+
+  </div>
+
+
+  <script>
+    $(document).ready(function () {
+      $('.toast').toast('show');
+    });
+  </script>
+
+  <!--	Setup Firbase		-->
+  <script>
+    var config = {
+      apiKey: "AIzaSyBDWIY6uA0cjwVJMg1td7inUx4oIuFLnK4",
+      authDomain: "add-user-8e06d.firebaseapp.com",
+      databaseURL: "https://add-user-8e06d.firebaseio.com",
+      projectId: "add-user-8e06d",
+      storageBucket: "add-user-8e06d.appspot.com",
+      messagingSenderId: "998163429421",
+      appId: "1:998163429421:web:af08801136846b0939a0a4",
+      measurementId: "G-7K6LC842FE"
+    };
+    firebase.initializeApp(config);
+
+    var termsRef = firebase.database().ref("terms");
+
+    // create Vue app
+    var app = new Vue({
+      // element to mount to
+      el: "#app",
+      // initial data
+      data: {
+        newTerm: {
+          name: "",
+          collage: "",
+          finition: "",
+          marquage: "",
+          control: "",
+          createdat: new Date(),
+        }
+      },
+      // firebase binding
+      // https://github.com/vuejs/vuefire
+      firebase: {
+        terms: termsRef
+      },
+      // computed property for form validation state
+      computed: {
+        validation: function () {
+          return {
+            name: !!this.newTerm.name.trim(),
+            collage: !!this.newTerm.name.trim(),
+            finition: !!this.newTerm.name.trim(),
+            marquage: !!this.newTerm.name.trim(),
+            control: !!this.newTerm.name.trim()
+          };
+        },
+        isValid: function () {
+          var validation = this.validation;
+          return Object.keys(validation).every(function (key) {
+            return validation[key];
+          });
+        }
+      },
+      // methods
+      methods: {
+        addTerm: function () {
+          if (this.isValid) {
+            termsRef.push(this.newTerm);
+            this.newTerm.name = "";
+            this.newTerm.collage = "";
+            this.newTerm.finition = "";
+            this.newTerm.marquage = "";
+            this.newTerm.control = "";
+          }
+        },
+        removeTerm: function (term) {
+          termsRef.child(term[".key"]).remove();
+        }
+      }
+    });
+  </script>
+
+
+</body>
+
+</html>

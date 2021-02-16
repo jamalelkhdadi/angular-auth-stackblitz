@@ -13,6 +13,9 @@
           <li class="nav-item">
             <router-link class="btn btn-outline-primary" to="/">Sign up</router-link>
           </li>
+          <li class="nav-item">
+            <router-link class="btn btn-outline-primary" to="/add">Add</router-link>
+          </li>
         </ul>
       </div>
     </nav>
